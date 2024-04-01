@@ -46,6 +46,16 @@ RUN mkdir -p piper && \
 
 # -----------------------------------------------------------------------------
 
+FROM build as build_with_voice
+ARG voice_file en-us-lessac-medium
+ENV VOICE_FILE $voice_file
+WORKDIR /dist/piper
+RUN curl -L --output voice-${VOICE_FILE}.tar.gz https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-${VOICE_FILE}.tar.gz
+RUN tar -xvf voice-${VOICE_FILE}.tar.gz
+RUN mv ${VOICE_FILE}.onnx voice_file.onnx
+RUN mv ${VOICE_FILE}.onnx.json voice_file.onnx.json
+# echo 'Welcome to the world of speech synthesis!' | ./piper --model voice_file.onnx --output_file welcome.wav
+
 FROM scratch
 
 # COPY --from=test /test/piper_*.tar.gz /test/test.wav ./
