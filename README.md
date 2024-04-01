@@ -79,6 +79,9 @@ You can build a Docker image that includes a voice file. Check the [voice_file_u
 ```sh
 docker buildx build --build-arg voice_file=en-us-danny-low --target build_with_voice -t piper:with-voice .
 docker buildx build --build-arg voice_file=fr-siwis-medium --target build_with_voice -t piper:with-voice-fr .
+
+docker buildx build --target prod -t piper:prod .
+docker buildx build --build-arg voice_file=en-us-danny-low --target with_voice -t piper:with-voice .
 ```
 
 Run the Docker image:
