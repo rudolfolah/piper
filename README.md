@@ -72,6 +72,36 @@ You must download and extract [piper-phonemize](https://github.com/rhasspy/piper
 For example, `lib/Linux-x86_64/piper_phonemize/lib/libpiper_phonemize.so` should exist for AMD/Intel machines (as well as everything else from `libpiper_phonemize-amd64.tar.gz`).
 
 
+## Installation and Usage with Docker
+
+You can build a Docker image:
+
+```sh
+docker buildx build --build-arg voice_file=en-us-ryan-medium --target build_with_voice -t piper:en-voice .
+```
+
+Run the Docker image:
+
+```sh
+docker run -it --entrypoint bash piper:en-voice
+```
+
+# run within the container
+echo 'Welcome to the world of speech synthesis!' | ./piper --model voice_file.onnx --output_file output.wav
+
+# find the container id
+docker ps -lq
+# copy the output file to the host
+docker cp <container_id>:/dist/piper/output.wav .
+```
+
+Alternatively, you can run the generate_audio.sh script to generate audio files using the Docker image:
+
+```sh
+./script/generate_audio.sh 'Hello world!'
+# output.wav will be generated in the current directory
+```
+
 ## Usage
 
 1. [Download a voice](#voices) and extract the `.onnx` and `.onnx.json` files
