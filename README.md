@@ -74,17 +74,17 @@ For example, `lib/Linux-x86_64/piper_phonemize/lib/libpiper_phonemize.so` should
 
 ## Installation and Usage with Docker
 
-You can build a Docker image:
+You can build a Docker image that includes a voice file. Check the [voice_file_urls.txt](./voice_file_urls.txt) file for available voice files.
 
 ```sh
-docker buildx build --build-arg voice_file=en-us-ryan-medium --target build_with_voice -t piper:en-voice .
+docker buildx build --build-arg voice_file=en-us-danny-low --target build_with_voice -t piper:with-voice .
+docker buildx build --build-arg voice_file=fr-siwis-medium --target build_with_voice -t piper:with-voice-fr .
 ```
 
 Run the Docker image:
 
 ```sh
-docker run -it --entrypoint bash piper:en-voice
-```
+docker run -it --entrypoint bash piper:with-voice
 
 # run within the container
 echo 'Welcome to the world of speech synthesis!' | ./piper --model voice_file.onnx --output_file output.wav
@@ -95,11 +95,12 @@ docker ps -lq
 docker cp <container_id>:/dist/piper/output.wav .
 ```
 
-Alternatively, you can run the generate_audio.sh script to generate audio files using the Docker image:
+Alternatively, you can run the `generate_audio.sh` script to generate audio files using the Docker image, it will use the `piper:with-voice` image by default (you can override this by providing an env var `DOCKER_IMAGE`):
 
 ```sh
 ./script/generate_audio.sh 'Hello world!'
 # output.wav will be generated in the current directory
+DOCKER_IMAGE=piper:with-voice-fr ./script/generate_audio.sh 'Bonjour et bienvenue dans le monde merveilleux de la synthèse texte-parole!'
 ```
 
 ## Usage
