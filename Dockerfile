@@ -61,10 +61,6 @@ RUN mv ${VOICE_FILE}.onnx.json voice_file.onnx.json
 
 FROM debian:bullseye-slim@sha256:a165446a88794db4fec31e35e9441433f9552ae048fb1ed26df352d2b537cb96 as with_voice
 COPY --from=build_with_voice /dist/piper /dist/piper
-# remove apt cache
-RUN rm -rf /var/lib/apt/lists/*
-# remove build dependencies
-RUN apt-get autoremove --yes
 
 FROM scratch as prod
 
